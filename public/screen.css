@@ -14,18 +14,19 @@ h1 {
 html {
   height: 100%;
   background-color: white;
-  color: rgb(9, 10, 9);
+  color: rgb(243, 250, 243);
+  text-align: center;
 }
 
 body {
   margin: 0;
   min-height: 100%;
-  background-image: url('images/symbolcards.jpg');
+  background-image: url('images/Game-Background.jpg');
 }
 
 .btn {
   font-family: 'News Cycle', sans-serif;
   /* width: 25%; */
   flex-direction: column;
-  background-color: rgb(172, 202, 173);
+  background-color: rgb(220, 221, 137);
 }
