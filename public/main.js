@@ -15,7 +15,7 @@ const createDeck = () => {
       deck.push(card)
     }
   }
-  console.log(deck)
+  //console.log(deck)
 }
 
 const shuffle = () => {
@@ -142,12 +142,13 @@ const end = () => {
   for (let i = 0; i < players.length; i++) {
     if (players[i].Points > score && players[i].Points < 22) {
       winner = i
+      console.log('Winner!')
     }
 
     score = players[i].Points
   }
-
-  document.querySelector('.status').innerHTML =
+  document.querySelector('.status').style.display = 'block'
+  document.querySelector('.status').innerText =
     'Winner: Player ' + players[winner].ID
 }
 
@@ -156,7 +157,7 @@ const updatePoints = () => {
     let score = 0
     for (let x = 0; x < players[i].Hand.length; x++) {
       score += players[i].Hand[x].Weight
-      if (score && players[i].Points < 22) {
+      if (score < 22) {
         console.log('under 21')
         players[i].Points = score
       } else {
