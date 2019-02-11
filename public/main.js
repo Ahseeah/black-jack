@@ -15,6 +15,7 @@ const createDeck = () => {
       deck.push(card)
     }
   }
+  console.log(deck)
 }
 
 const shuffle = () => {
@@ -32,10 +33,11 @@ const shuffle = () => {
 
 let players = []
 const createPlayers = num => {
-  players = []
+  let dealer = { Name: 'Dealer', ID: 0, Points: 0, Hand: [] }
+  players = [dealer]
   for (let i = 1; i <= num; i++) {
     let hand = []
-    let player = { Name: 'Player ' + i, ID: i, Points: 0, Hand: hand }
+    let player = { Name: 'Player' + i, ID: i, Points: 0, Hand: hand }
     players.push(player)
   }
 }
@@ -43,33 +45,33 @@ const createPlayers = num => {
 const createPlayersUI = () => {
   document.getElementById('players').innerHTML = ''
   for (let i = 0; i < players.length; i++) {
-    let section_player = document.createElement('section')
-    let section_playerid = document.createElement('section')
-    let section_hand = document.createElement('section')
-    let section_points = document.createElement('section')
+    let sectionPlayer = document.createElement('section')
+    let sectionPlayerId = document.createElement('section')
+    let sectionHand = document.createElement('section')
+    let sectionPoints = document.createElement('section')
 
-    section_points.className = 'points'
-    section_points.id = 'points_' + i
-    section_player.id = 'player_' + i
-    section_player.className = 'player'
-    section_hand.id = 'hand_' + i
+    sectionPoints.className = 'points'
+    sectionPoints.id = 'points_' + i
+    sectionPlayer.id = 'player_' + i
+    sectionPlayer.className = 'player'
+    sectionHand.id = 'hand_' + i
 
-    section_playerid.innerHTML = players[i].ID
-    section_player.appendChild(section_playerid)
-    section_player.appendChild(section_hand)
-    section_player.appendChild(section_points)
-    document.getElementById('players').appendChild(section_player)
+    sectionPlayerId.innerHTML = players[i].ID
+    sectionPlayer.appendChild(sectionPlayerId)
+    sectionPlayer.appendChild(sectionHand)
+    sectionPlayer.appendChild(sectionPoints)
+    document.getElementById('players').appendChild(sectionPlayer)
   }
 }
 
-const startBlackJack = () => {
-  document.querySelector('btnStart').value = 'Restart'
-  document.querySelector('status').style.display = 'none'
+const start = () => {
+  document.querySelector('.btnStart').textContent = 'Restart'
+  document.querySelector('.status').style.display = 'none'
   // deal 2 cards to every player object
   currentPlayer = 0
   createDeck()
   shuffle()
-  createPlayers(2)
+  createPlayers(1)
   createPlayersUI()
   dealHands()
   document.getElementById('player_' + currentPlayer).classList.add('active')
@@ -83,11 +85,11 @@ const dealHands = () => {
       let card = deck.pop()
       players[x].Hand.push(card)
       dealCard(card, x)
-      updatePoints()
+      updatePoints(players[x])
     }
   }
 
-  updateDeck()
+  //updateDeck()
 }
 
 const dealCard = (card, player) => {
@@ -145,6 +147,23 @@ const end = () => {
     score = players[i].Points
   }
 
-  document.querySelector('status').innerHTML =
+  document.querySelector('.status').innerHTML =
     'Winner: Player ' + players[winner].ID
+}
+
+const updatePoints = () => {
+  for (let i = 0; i < players.length; i++) {
+    let score = 0
+    for (let x = 0; x < players[i].Hand.length; x++) {
+      score += players[i].Hand[x].Weight
+      if (score && players[i].Points < 22) {
+        console.log('under 21')
+        players[i].Points = score
+      } else {
+        console.log('over 21')
+        end()
+      }
+    }
+  }
+  // playerX.Points =
 }
